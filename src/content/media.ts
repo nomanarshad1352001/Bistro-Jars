@@ -7,7 +7,7 @@ import type { Bilingual } from "./site";
  * required (see ASSETS.md for the source links).
  */
 
-const px = (id: number, w: number) =>
+export const px = (id: number, w: number) =>
   `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=${w}`;
 
 export const img = {

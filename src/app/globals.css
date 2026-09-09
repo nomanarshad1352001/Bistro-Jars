@@ -176,3 +176,50 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   filter: invert(0.75) sepia(0.3);
   cursor: pointer;
 }
+
+/* rotating copper glow border for the promo banner */
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes spinAngle {
+  to {
+    --angle: 360deg;
+  }
+}
+.promo-glow {
+  position: relative;
+  isolation: isolate;
+}
+.promo-glow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 1rem;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--angle),
+    transparent 10%,
+    rgba(201, 138, 75, 0.95) 30%,
+    rgba(227, 181, 127, 0.95) 50%,
+    rgba(201, 138, 75, 0.95) 70%,
+    transparent 90%
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  animation: spinAngle 6.5s linear infinite;
+  pointer-events: none;
+}
+
+/* menu row hover sweep */
+.menu-row {
+  transition:
+    background-color 0.35s ease,
+    transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.menu-row:hover {
+  background-color: rgba(237, 229, 216, 0.035);
+}
