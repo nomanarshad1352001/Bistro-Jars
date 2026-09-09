@@ -72,6 +72,12 @@ const en = {
     body: "Behind the bar hides the garden — shade under the leaves in summer, string lights and heaters in winter. Come for a first coffee while the neighbourhood wakes up, or an evening shake once the lamps glow. This is where slow mornings turn into long afternoons.",
     cta: "Plan your visit",
   },
+  menuTeaser: {
+    kicker: "From the kitchen",
+    title: "Something delicious is always cooking",
+    sub: "Burgers built on Jokić beef, tortillas folded to order, breakfasts that quietly turn into lunch — a taste of what's on the menu.",
+    cta: "View the full menu",
+  },
   reviews: {
     kicker: "Word of mouth",
     title: "What our guests say",
@@ -304,6 +310,12 @@ const sr: Dict = {
     title: "Uvek par stepeni hladniji",
     body: "Iza bara se krije vrt — leti hlad pod lišćem, zimi lampioni i grejalice. Dođi na prvu kafu dok se kraj budi, ili na večernji šejk kad se svetla upale. Ovde spora jutra prelaze u duga popodneva.",
     cta: "Planiraj posetu",
+  },
+  menuTeaser: {
+    kicker: "Iz kuhinje",
+    title: "Nešto ukusno se uvek sprema",
+    sub: "Burgeri od Jokić mesa, tortilje savijene po porudžbini, doručci koji prerastu u ručak — delić svega što nosi meni.",
+    cta: "Pogledaj ceo meni",
   },
   reviews: {
     kicker: "Glas gostiju",

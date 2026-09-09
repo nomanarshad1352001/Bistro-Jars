@@ -2,17 +2,50 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import type { CSSProperties } from "react";
+import { useEffect, useRef, type CSSProperties } from "react";
 import { ArrowRight } from "lucide-react";
+import { gsap } from "@/lib/gsap";
 import { useLang } from "@/lib/i18n";
 import { stripImages } from "@/content/media";
 
 export default function GalleryStrip() {
   const { t } = useLang();
+  const rootRef = useRef<HTMLElement>(null);
   const items = [...stripImages, ...stripImages];
 
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        "[data-strip]",
+        { y: 80, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.2,
+          ease: "power3.out",
+          scrollTrigger: { trigger: rootRef.current, start: "top 82%", once: true },
+        }
+      );
+      gsap.utils.toArray<HTMLElement>("[data-tile-img]").forEach((el, i) => {
+        gsap.fromTo(
+          el,
+          { yPercent: i % 2 === 0 ? -8 : 8, opacity: 0 },
+          {
+            yPercent: 0,
+            opacity: 1,
+            duration: 0.9,
+            ease: "power3.out",
+            delay: (i % items.length) * 0.05,
+            scrollTrigger: { trigger: rootRef.current, start: "top 82%", once: true },
+          }
+        );
+      });
+    }, rootRef);
+    return () => ctx.revert();
+  }, [items.length]);
+
   return (
-    <section className="border-t border-line py-20 md:py-28">
+    <section ref={rootRef} className="border-t border-line py-20 md:py-28">
       <div className="mx-auto mb-10 flex max-w-7xl items-end justify-between px-5 md:px-10">
         <div className="flex items-center gap-4">
           <span className="h-px w-10 bg-copper" />
@@ -31,7 +64,7 @@ export default function GalleryStrip() {
         </Link>
       </div>
 
-      <div className="marquee-paused overflow-hidden">
+      <div data-strip className="marquee-paused overflow-hidden will-change-transform">
         <div
           className="flex w-max animate-marquee gap-3 pr-3"
           style={{ "--marquee-duration": "58s" } as CSSProperties}
@@ -40,6 +73,7 @@ export default function GalleryStrip() {
             <Link
               key={`${src}-${i}`}
               href="/gallery"
+              data-tile-img
               className="group relative h-[36svh] w-[64vw] shrink-0 overflow-hidden rounded-md border border-line/60 sm:h-[42svh] sm:w-[40vw] md:h-[48svh] md:w-[27vw] lg:w-[22vw]"
               tabIndex={-1}
             >

@@ -52,7 +52,7 @@ export default function Hero() {
       {/* backdrop video */}
       <div data-video className="absolute inset-0 will-change-transform">
         <video
-          className="h-full w-full object-cover"
+          className="kenburns h-full w-full object-cover"
           src={videos.hero}
           poster={img.heroPoster}
           autoPlay

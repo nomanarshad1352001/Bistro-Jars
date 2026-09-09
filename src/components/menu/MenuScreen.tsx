@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { BadgePercent, MessageCircle, Search, Truck, X } from "lucide-react";
-import { gsap } from "@/lib/gsap";
+import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { useLang } from "@/lib/i18n";
 import { menu } from "@/content/menu";
 import { img } from "@/content/media";
@@ -17,6 +17,21 @@ export default function MenuScreen() {
   const [query, setQuery] = useState("");
   const [light, setLight] = useState<{ src: string; name: string } | null>(null);
   const rootRef = useRef<HTMLDivElement>(null);
+  const barRef = useRef<HTMLDivElement>(null);
+
+  /* always-on scroll progress through the menu */
+  useEffect(() => {
+    if (!barRef.current) return;
+    const setBar = gsap.quickSetter(barRef.current, "scaleX");
+    const ctx = gsap.context(() => {
+      ScrollTrigger.create({
+        start: 0,
+        end: "max",
+        onUpdate: (self) => setBar(self.progress),
+      });
+    });
+    return () => ctx.revert();
+  }, []);
 
   useEffect(() => {
     if (!light) return;
@@ -65,6 +80,20 @@ export default function MenuScreen() {
   useEffect(() => {
     if (q) return;
     const ctx = gsap.context(() => {
+      gsap.fromTo(
+        "[data-wm]",
+        { xPercent: 4 },
+        {
+          xPercent: -16,
+          ease: "none",
+          scrollTrigger: {
+            trigger: rootRef.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: true,
+          },
+        }
+      );
       gsap.utils.toArray<HTMLElement>("[data-cat]").forEach((section) => {
         const head = section.querySelector("[data-cat-head]");
         const rule = section.querySelector("[data-cat-rule]");
@@ -206,10 +235,21 @@ export default function MenuScreen() {
             ))}
           </div>
         </div>
+        <div className="absolute bottom-0 left-0 h-[2px] w-full">
+          <div ref={barRef} className="h-full w-full origin-left scale-x-0 bg-copper" />
+        </div>
       </div>
 
       {/* categories */}
-      <div className="mx-auto max-w-7xl px-5 pb-28 md:px-10">
+      <div className="relative mx-auto max-w-7xl px-5 pb-28 md:px-10">
+        <div
+          data-wm
+          aria-hidden
+          className="pointer-events-none absolute top-[22%] left-0 font-display whitespace-nowrap text-[22vw] leading-none text-transparent uppercase select-none opacity-[0.045]"
+          style={{ WebkitTextStroke: "1px rgba(237,229,216,0.9)" }}
+        >
+          Meni · Menu · Meni · Menu
+        </div>
         {visible.length === 0 ? (
           <div key={q} className="step-in py-24 text-center">
             <p className="headline max-w-xl text-2xl italic text-cream md:text-3xl">
@@ -265,7 +305,7 @@ export default function MenuScreen() {
                             setLight({ src: item.img!, name: item.name[lang] })
                           }
                           aria-label={item.name[lang]}
-                          className="relative h-14 w-14 shrink-0 cursor-zoom-in overflow-hidden rounded-xl border border-line md:h-16 md:w-16"
+                          className="relative h-14 w-14 shrink-0 cursor-zoom-in overflow-hidden rounded-xl border border-line transition-all duration-500 group-hover:border-copper/70 group-hover:shadow-[0_0_0_1px_rgba(201,138,75,0.35),0_8px_24px_rgba(0,0,0,0.45)] md:h-16 md:w-16"
                         >
                           <Image
                             src={item.img}
@@ -292,7 +332,7 @@ export default function MenuScreen() {
                             </span>
                           ) : null}
                           <span className="mx-1 hidden flex-1 border-b border-dotted border-cream/15 transition-colors duration-300 sm:block" />
-                          <p className="ml-auto font-display text-xl italic whitespace-nowrap text-amber md:text-2xl">
+                          <p className="ml-auto font-display text-xl italic whitespace-nowrap text-amber transition-transform duration-300 group-hover:-translate-y-0.5 md:text-2xl">
                             {item.oldPrice ? (
                               <span className="mr-2.5 align-middle text-sm not-italic text-dim line-through">
                                 {fmt(item.oldPrice)}

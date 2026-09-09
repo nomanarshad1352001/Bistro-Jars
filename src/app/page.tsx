@@ -2,6 +2,7 @@ import Hero from "@/components/home/Hero";
 import Manifesto from "@/components/home/Manifesto";
 import Craft from "@/components/home/Craft";
 import SignatureStory from "@/components/home/SignatureStory";
+import MenuTeaser from "@/components/home/MenuTeaser";
 import GalleryStrip from "@/components/home/GalleryStrip";
 import Garden from "@/components/home/Garden";
 import Reviews from "@/components/home/Reviews";
@@ -14,6 +15,7 @@ export default function HomePage() {
       <Manifesto />
       <Craft />
       <SignatureStory />
+      <MenuTeaser />
       <GalleryStrip />
       <Garden />
       <Reviews />

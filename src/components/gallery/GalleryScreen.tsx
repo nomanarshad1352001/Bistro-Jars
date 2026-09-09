@@ -1,16 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Play, X } from "lucide-react";
+import { gsap } from "@/lib/gsap";
 import { useLang } from "@/lib/i18n";
 import { galleryItems } from "@/content/media";
 import PageHeader from "@/components/PageHeader";
-import Reveal from "@/components/anim/Reveal";
 
 export default function GalleryScreen() {
   const { t, lang } = useLang();
   const [openIdx, setOpenIdx] = useState<number | null>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
 
   const close = useCallback(() => setOpenIdx(null), []);
   const step = useCallback(
@@ -32,10 +33,49 @@ export default function GalleryScreen() {
     return () => window.removeEventListener("keydown", onKey);
   }, [openIdx, close, step]);
 
+  /* staggered entrances + floating parallax per tile */
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.utils.toArray<HTMLElement>("[data-tile]").forEach((tile, i) => {
+        gsap.fromTo(
+          tile,
+          { y: 64, opacity: 0, rotate: i % 2 === 0 ? -1.2 : 1.2 },
+          {
+            y: 0,
+            opacity: 1,
+            rotate: 0,
+            duration: 1.05,
+            ease: "power3.out",
+            delay: (i % 3) * 0.08,
+            scrollTrigger: { trigger: tile, start: "top 92%", once: true },
+          }
+        );
+        const img = tile.querySelector("[data-tile-img]");
+        if (img) {
+          gsap.fromTo(
+            img,
+            { yPercent: -5 },
+            {
+              yPercent: 5,
+              ease: "none",
+              scrollTrigger: {
+                trigger: tile,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true,
+              },
+            }
+          );
+        }
+      });
+    }, rootRef);
+    return () => ctx.revert();
+  }, [lang]);
+
   const current = openIdx === null ? null : galleryItems[openIdx];
 
   return (
-    <>
+    <div ref={rootRef}>
       <PageHeader
         kicker={t.galleryPage.kicker}
         title={t.galleryPage.title}
@@ -45,20 +85,22 @@ export default function GalleryScreen() {
       <div className="mx-auto max-w-7xl px-5 pb-28 md:px-10">
         <div className="columns-1 gap-4 sm:columns-2 lg:columns-3 [&>*]:mb-4">
           {galleryItems.map((item, i) => (
-            <Reveal key={item.src} y={26} className="break-inside-avoid">
+            <div key={`${item.src}-${i}`} data-tile className="break-inside-avoid will-change-transform">
               <button
                 onClick={() => setOpenIdx(i)}
                 className="group relative block w-full cursor-pointer overflow-hidden rounded-lg border border-line/60 text-left"
               >
                 {item.kind === "image" ? (
-                  <Image
-                    src={item.src}
-                    alt={item.caption[lang]}
-                    width={item.tall ? 800 : 1600}
-                    height={item.tall ? 1200 : 1067}
-                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                    className="h-auto w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                  />
+                  <div data-tile-img className="will-change-transform">
+                    <Image
+                      src={item.src}
+                      alt={item.caption[lang]}
+                      width={item.tall ? 800 : 1600}
+                      height={item.tall ? 1200 : 1067}
+                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                      className="h-auto w-full scale-[1.12] object-cover transition-transform duration-700 group-hover:scale-[1.17]"
+                    />
+                  </div>
                 ) : (
                   <video
                     src={item.src}
@@ -84,7 +126,31 @@ export default function GalleryScreen() {
                   )}
                 </div>
               </button>
-            </Reveal>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* brand ticker */}
+      <div className="overflow-hidden border-t border-line">
+        <div className="flex w-max animate-marquee gap-12 py-7" style={{ "--marquee-duration": "36s" } as React.CSSProperties}>
+          {[0, 1].map((copy) => (
+            <div key={copy} className="flex shrink-0 items-center gap-12" aria-hidden={copy === 1}>
+              {Array.from({ length: 4 }).map((_, i) => (
+                <span key={i} className="flex items-center gap-12 whitespace-nowrap">
+                  <span className="font-display text-3xl italic text-cream/25 md:text-4xl">
+                    Bistro &amp; Jars
+                  </span>
+                  <span className="h-1.5 w-1.5 rounded-full bg-copper/60" />
+                  <span className="text-xs tracking-[0.3em] text-dim uppercase">
+                    Pariske komune 59
+                  </span>
+                  <span className="h-1.5 w-1.5 rounded-full bg-copper/60" />
+                  <span className="label-caps">09:00 — 22:00</span>
+                  <span className="h-1.5 w-1.5 rounded-full bg-copper/60" />
+                </span>
+              ))}
+            </div>
           ))}
         </div>
       </div>
@@ -115,16 +181,18 @@ export default function GalleryScreen() {
               <ChevronLeft size={18} strokeWidth={1.5} />
             </button>
 
-            <div className="relative max-h-full">
+            <div key={`${openIdx}-${lang}`} className="pop-in relative max-h-full" style={{ animationDelay: "0ms" }}>
               {current.kind === "image" ? (
-                <Image
-                  src={current.src}
-                  alt={current.caption[lang]}
-                  width={current.tall ? 1000 : 1800}
-                  height={current.tall ? 1500 : 1200}
-                  className="max-h-[74svh] w-auto rounded-lg object-contain"
-                  priority
-                />
+                <div className="relative h-[72svh] w-[92vw] max-w-4xl">
+                  <Image
+                    src={current.src}
+                    alt={current.caption[lang]}
+                    fill
+                    sizes="(min-width: 768px) 80vw, 92vw"
+                    className="rounded-lg object-contain"
+                    priority
+                  />
+                </div>
               ) : (
                 <video
                   src={current.src}
@@ -134,7 +202,7 @@ export default function GalleryScreen() {
                   loop
                   playsInline
                   controls
-                  className="max-h-[74svh] w-auto max-w-full rounded-lg"
+                  className="max-h-[72svh] w-auto max-w-full rounded-lg"
                 />
               )}
             </div>
@@ -156,6 +224,6 @@ export default function GalleryScreen() {
           </p>
         </div>
       )}
-    </>
+    </div>
   );
 }

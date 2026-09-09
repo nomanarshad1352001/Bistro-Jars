@@ -23,7 +23,7 @@ export default function Reviews() {
   const rowB = items.slice(3, 6);
 
   const Card = ({ item }: { item: (typeof items)[number] }) => (
-    <article className="w-[300px] shrink-0 rounded-xl border border-line bg-panel/50 p-6 sm:w-[380px] sm:p-7">
+    <article className="w-[300px] shrink-0 rounded-xl border border-line bg-panel/50 p-6 transition-all duration-500 hover:-translate-y-1.5 hover:border-copper/40 hover:shadow-2xl hover:shadow-black/50 sm:w-[380px] sm:p-7">
       <Stars />
       <p className="mt-4 text-sm leading-relaxed text-cream/80 sm:text-[0.95rem]">
         “{item.text}”
