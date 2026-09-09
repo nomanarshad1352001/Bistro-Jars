@@ -1,9 +1,9 @@
 import type { Bilingual } from "./site";
 
 export const videos = {
-  hero: "https://videos.pexels.com/video-files/2909914/2909914-uhd_3840_2024_24fps.mp4",
-  latte: "https://videos.pexels.com/video-files/6769791/6769791-uhd_3840_2160_24fps.mp4",
-  pour: "https://videos.pexels.com/video-files/9422639/9422639-uhd_3840_2160_30fps.mp4",
+  hero: "/videos/hero.mp4",
+  latte: "/videos/latte.mp4",
+  pour: "/videos/pour.mp4",
 } as const;
 
 export type GalleryItem = {
