@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { MessageCircle } from "lucide-react";
 import { useLang } from "@/lib/i18n";
 import { menu } from "@/content/menu";
+import { img } from "@/content/media";
 import { waLink } from "@/content/site";
 import PageHeader from "@/components/PageHeader";
 import Reveal from "@/components/anim/Reveal";
@@ -40,7 +41,7 @@ export default function MenuScreen() {
             </div>
             <div className="relative hidden h-36 w-56 rotate-2 overflow-hidden rounded-lg border border-line shadow-2xl shadow-black/50 lg:block">
               <Image
-                src="/images/signature.jpg"
+                src={img.signature}
                 alt="Kinder shake"
                 fill
                 sizes="224px"

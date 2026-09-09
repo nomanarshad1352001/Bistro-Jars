@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { gsap } from "@/lib/gsap";
 import { useLang } from "@/lib/i18n";
-import { videos } from "@/content/media";
+import { videos, img } from "@/content/media";
 
 export default function Hero() {
   const { t } = useLang();
@@ -54,7 +54,7 @@ export default function Hero() {
         <video
           className="h-full w-full object-cover"
           src={videos.hero}
-          poster="/images/hero-poster.jpg"
+          poster={img.heroPoster}
           autoPlay
           muted
           loop

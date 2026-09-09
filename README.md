@@ -26,7 +26,9 @@ Bilingual (SR/EN), dark editorial design, scroll-driven storytelling, WhatsApp-f
 - **All copy (SR/EN)** lives in `src/content/dictionary.ts`.
 - **Menu items & prices** live in `src/content/menu.ts`.
 - **Address, hours, phone, links** live in `src/content/site.ts`.
-- **Gallery items & videos** live in `src/content/media.ts` (images in `public/images/`).
+- **Gallery items & videos** live in `src/content/media.ts` — all media is
+  hotlinked from the free Pexels CDN, so no binary assets are required in the
+  repo; swap URLs there to change any photo or video (see `ASSETS.md`).
 
 ## Language
 

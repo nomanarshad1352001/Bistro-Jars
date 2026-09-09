@@ -1,3 +1,5 @@
+import { img } from "./media";
+
 /**
  * All bilingual (Serbian Latin / English) copy for the site.
  * `en` defines the shape; `sr` mirrors it.
@@ -39,22 +41,22 @@ const en = {
       {
         title: "The base",
         text: "Chilled milk, one scoop of vanilla gelato, and a ratio we recalibrate every single morning.",
-        img: "/images/step-01.jpg",
+        img: img.step01,
       },
       {
         title: "The blend",
         text: "Short and strong, to a creamy silk — never a second longer, so it stays dense and cold.",
-        img: "/images/step-02.jpg",
+        img: img.step02,
       },
       {
         title: "The spiral",
         text: "The jar is glazed with warm hazelnut chocolate, spiral by spiral, edge to edge.",
-        img: "/images/step-03.jpg",
+        img: img.step03,
       },
       {
         title: "The crown",
         text: "Whipped cream, Kinder Bueno, cocoa in the air. Served immediately. Always.",
-        img: "/images/step-04.jpg",
+        img: img.step04,
       },
     ],
     outro: "Taste it in person — Pariske komune 59.",
@@ -266,22 +268,22 @@ const sr: Dict = {
       {
         title: "Baza",
         text: "Ohlađeno mleko, kugla sladoleda od vanile i odnos koji kalibriramo svakog jutra.",
-        img: "/images/step-01.jpg",
+        img: img.step01,
       },
       {
         title: "Blend",
         text: "Kratko i jako, do kremaste svile — ni sekunde duže, da ostane gust i hladan.",
-        img: "/images/step-02.jpg",
+        img: img.step02,
       },
       {
         title: "Spirala",
         text: "Teglu oblažemo toplom čokoladom od lešnika, spiralu po spiralu, od ivice do ivice.",
-        img: "/images/step-03.jpg",
+        img: img.step03,
       },
       {
         title: "Kruna",
         text: "Šlag, Kinder Bueno, kakao u vazduhu. Servira se odmah. Uvek.",
-        img: "/images/step-04.jpg",
+        img: img.step04,
       },
     ],
     outro: "Probaj ga uživo — Pariske komune 59.",

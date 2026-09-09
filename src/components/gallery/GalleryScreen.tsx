@@ -54,8 +54,8 @@ export default function GalleryScreen() {
                   <Image
                     src={item.src}
                     alt={item.caption[lang]}
-                    width={item.tall ? 900 : 1600}
-                    height={item.tall ? 1200 : 1000}
+                    width={item.tall ? 800 : 1600}
+                    height={item.tall ? 1200 : 1067}
                     sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                     className="h-auto w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
                   />
@@ -121,7 +121,7 @@ export default function GalleryScreen() {
                   src={current.src}
                   alt={current.caption[lang]}
                   width={current.tall ? 1000 : 1800}
-                  height={current.tall ? 1400 : 1100}
+                  height={current.tall ? 1500 : 1200}
                   className="max-h-[74svh] w-auto rounded-lg object-contain"
                   priority
                 />

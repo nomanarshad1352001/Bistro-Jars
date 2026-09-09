@@ -6,7 +6,7 @@ import { useEffect, useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import { gsap } from "@/lib/gsap";
 import { useLang } from "@/lib/i18n";
-import { videos } from "@/content/media";
+import { videos, img } from "@/content/media";
 import Reveal from "@/components/anim/Reveal";
 
 export default function Craft() {
@@ -89,7 +89,7 @@ export default function Craft() {
             >
               <div data-parallax-img className="absolute inset-[-14%_0]">
                 <Image
-                  src="/images/barista.jpg"
+                  src={img.barista}
                   alt="Barista pouring latte art"
                   fill
                   sizes="(min-width: 1024px) 58vw, 100vw"

@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { Fraunces, Manrope } from "next/font/google";
 import "./globals.css";
 import { LangProvider } from "@/lib/i18n";
+import { img } from "@/content/media";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import Grain from "@/components/Grain";
@@ -35,7 +36,7 @@ export const metadata: Metadata = {
     title: "Bistro & Jars — Coffee Bar",
     description:
       "Kafa, potpis šejkovi i spora jutra — Pariske komune 59, Novi Beograd.",
-    images: ["/images/hero-poster.jpg"],
+    images: [img.heroPoster],
     type: "website",
   },
 };

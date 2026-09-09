@@ -6,6 +6,7 @@ import { useEffect, useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import { gsap } from "@/lib/gsap";
 import { useLang } from "@/lib/i18n";
+import { img } from "@/content/media";
 import Reveal from "@/components/anim/Reveal";
 
 export default function Garden() {
@@ -37,7 +38,7 @@ export default function Garden() {
       <div className="relative h-[92svh] min-h-[560px]">
         <div data-garden-img className="absolute inset-[-12%_0] will-change-transform">
           <Image
-            src="/images/garden.jpg"
+            src={img.garden}
             alt="The Bistro & Jars garden terrace at dusk"
             fill
             sizes="100vw"
